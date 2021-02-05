@@ -5,7 +5,7 @@
 ### About QuerifyPHP
 it's a framework that makes it easy to insert, select, delete and update record of a database in php
 
-## Getting Started
+# Getting Started
 
 ```php
 
@@ -23,8 +23,10 @@ $querify->connect($servername,$username,$password,$database);
 
 ### Selecting Data
 ```php
+//assign a variable to store the array returned 
 $results = $querify->Select($tablename);
 
+//loop and display the data from the array
 foreach($results as $results)
 {
 	echo $result['columnName'];
@@ -44,7 +46,7 @@ $data = array
 	'columnName' => 'data'
 
 );
-
+// pass the values of the tablename and array in the parameter
 $querify->Insert($tablename,$data);
 
 ```
@@ -52,7 +54,10 @@ $querify->Insert($tablename,$data);
 ### Searching Data
 ```php
 
+//assign a variable to store the array returned 
 $results= $querify->Search($tablename,$column,$id);
+
+//loop and display the data from the array
 foreach($results as $results)
 {
 	echo $result['columnName'];
@@ -63,5 +68,8 @@ foreach($results as $results)
 
 ### Deleting Data
 ```php
+
+//pass the values of the tablename and row id in the parameter
 $querify->Delete($tablename,$id);
+
 ```
