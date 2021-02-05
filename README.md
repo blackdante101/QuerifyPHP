@@ -21,7 +21,7 @@ $querify->connect($servername,$username,$password,$database);
 
 ```
 
-### Selecting Data
+# Selecting Data
 ```php
 //assign a variable to store the array returned 
 $results = $querify->Select($tablename);
@@ -34,7 +34,7 @@ foreach($results as $results)
 }
 ```
 
-### Inserting Data
+# Inserting Data
 ```php
 
 // create an array with table column names as array keys and user inputs as array values
@@ -51,7 +51,7 @@ $querify->Insert($tablename,$data);
 
 ```
 
-### Searching Data
+# Searching Data
 ```php
 
 //assign a variable to store the array returned 
@@ -66,7 +66,7 @@ foreach($results as $results)
 
 ```
 
-### Deleting Data
+# Deleting Data
 ```php
 
 //pass the values of the tablename and row id in the parameter
