@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/querify.PNG" alt="QuerifyPHP">
+  <img src="img/querify.PNG" width="400" height="300" alt="QuerifyPHP">
 </p>
 
 ### About QuerifyPHP
