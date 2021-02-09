@@ -44,9 +44,9 @@ foreach($results as $results)
 
 $data = array 
 (
-	'columnName' => 'data',
-	'columnName' => 'data',
-	'columnName' => 'data'
+	'columnName' => $_POST['data'],
+	'columnName' => $_POST['data'],
+	'columnName' => $_POST['data']
 
 );
 // pass the values of the tablename and array in the parameter
