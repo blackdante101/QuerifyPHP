@@ -15,7 +15,10 @@ include 'querify.php';
 // Create an object
 $querify = new Querify();
 
-//connect to database
+// Create a database
+$database = $querify->CreateDB("databaseName");
+
+//Connect to database
 $querify->connect($servername,$username,$password,$database);
 
 

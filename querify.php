@@ -10,6 +10,12 @@
 			echo "connection error".$this->db->connect_error;
 		}
 	}
+	public function CreateDb($databaseName)
+	{
+		$stmt=$this->db->prepare("CREATE DATABASE $databaseName");
+		$stmt->execute();
+		$stmt->close();
+	}
 	public function SelectAll($tblname)
 	{
 		$stmt=$this->db->prepare("SELECT * FROM $tblname");
