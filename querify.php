@@ -49,6 +49,26 @@
 		$stmt->close();
 
 	}
+	public function Update($table_name, $fields, $where_condition)  
+      {  
+           $query = '';  
+           $condition = '';  
+           foreach($fields as $key => $value)  
+           {  
+                $query .= $key . "='".$value."', ";  
+           }  
+           $query = substr($query, 0, -2);  
+           foreach($where_condition as $key => $value)  
+           {  
+                $condition .= $key . "='".$value."' AND ";  
+           }  
+           $condition = substr($condition, 0, -5);  
+           $query = "UPDATE ".$table_name." SET ".$query." WHERE ".$condition."";  
+           if(mysqli_query($this->db, $query))  
+           {  
+                return true;  
+           }  
+      } 
 
 
 }

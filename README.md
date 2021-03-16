@@ -69,6 +69,27 @@ foreach($results as $results)
 
 ```
 
+# Updating Data 
+```php 
+$fields = array
+(
+	'columnName' => $_POST['data'],
+	'columnName' => $_POST['data'],
+)
+
+$condition = array 
+(
+	'columnName' => $_POST['data'];
+
+)
+
+$querify->Update($tablename,$fields,$condition);
+
+
+
+```
+
+
 # Deleting Data
 ```php
 
