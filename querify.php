@@ -41,12 +41,17 @@
 	}
 	public function Insert($tblname,$array)
 	{
-		$values = implode(',',array_values($array));
-		$columns = implode(',',array_keys($array));
-		$stmt=$this->db->prepare("INSERT INTO $tblname($columns) VALUES (?)");
-		$stmt->bind_param('s',$values);
-		$stmt->execute();
-		$stmt->close();
+		$string ='';
+		foreach ($array as $arr) {
+			$string .="'".$arr."',";
+		}
+		$trimstring= substr($string,0,-1);
+		$columns = implode(",",array_keys($array));
+		$query = "INSERT INTO $tblname($columns) VALUES ($trimstring)";
+		if($this->db->query($query))
+		{
+			return true;
+		}
 
 	}
 	public function Update($table_name, $fields, $where_condition)  
