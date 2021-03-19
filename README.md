@@ -71,11 +71,14 @@ foreach($results as $results)
 
 # Updating Data 
 ```php 
+
+// create an array with table column names as array keys and user inputs as array values
 $fields = array
 (
 	'columnName' => $_POST['data'],
 	'columnName' => $_POST['data'],
 )
+// create an array with table column names as array keys and condition value as array values
 
 $condition = array 
 (
@@ -83,6 +86,7 @@ $condition = array
 
 )
 
+//pass the variables into the update method
 $querify->Update($tablename,$fields,$condition);
 
 

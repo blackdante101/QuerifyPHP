@@ -48,12 +48,22 @@
 	public function Insert($tblname,$array)
 	{
 		$string ='';
+
+		//loops each array value(input values) into string variable with apostrophe and commas
 		foreach ($array as $arr) {
 			$string .="'".$arr."',";
 		}
+
+		// removes last comma at the end of string
 		$trimstring= substr($string,0,-1);
+
+		//stores array keys(column names) into columns variable with commas
 		$columns = implode(",",array_keys($array));
+
+		//concatenating variables into query string
 		$query = "INSERT INTO $tblname($columns) VALUES ($trimstring)";
+
+		//returns true if query runs
 		if($this->db->query($query))
 		{
 			return true;
@@ -64,17 +74,28 @@
       {  
            $query = '';  
            $condition = '';  
+           
+           //loops array keys and values of fields array into query variable
            foreach($fields as $key => $value)  
            {  
                 $query .= $key . "='".$value."', ";  
-           }  
-           $query = substr($query, 0, -2);  
+           } 
+
+           //removes last comma at the end of query string 
+           $query = substr($query, 0, -2); 
+
+           //loops array keys and values of where condition array into condition variable
            foreach($where_condition as $key => $value)  
            {  
                 $condition .= $key . "='".$value."' AND ";  
-           }  
+           }
+
            $condition = substr($condition, 0, -5);  
-           $query = "UPDATE ".$table_name." SET ".$query." WHERE ".$condition."";  
+
+           //concatenating variables into query string
+           $query = "UPDATE ".$table_name." SET ".$query." WHERE ".$condition.""; 
+
+           //returns true if query runs successfully 
            if(mysqli_query($this->db, $query))  
            {  
                 return true;  
