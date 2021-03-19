@@ -13,7 +13,10 @@
 	public function CreateDb($databaseName)
 	{
 		$stmt=$this->db->prepare("CREATE DATABASE $databaseName");
-		$stmt->execute();
+		if($stmt->execute())
+		{
+			return true;
+		}
 		$stmt->close();
 	}
 	public function SelectAll($tblname)
@@ -27,7 +30,10 @@
 	{
 		$stmt=$this->db->prepare("DELETE FROM $tblname WHERE id=?");
 		$stmt->bind_param('i',$id);
-		$stmt->execute();
+		if($stmt->execute())
+		{
+			return true;
+		}
 		$stmt->close();
 	}
 	public function Search($tblname,$column,$data)
