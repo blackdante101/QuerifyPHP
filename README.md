@@ -23,6 +23,12 @@ $querify->connect($servername,$username,$password,$database);
 
 
 ```
+# Importing Data 
+
+```php
+$querify->Import($servername,$username,$password,$database,$sqlfile);
+```
+
 
 # Selecting Data
 ```php
