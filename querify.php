@@ -10,14 +10,19 @@
 			echo "connection error".$this->db->connect_error;
 		}
 	}
-	public function CreateDb($databaseName)
+	public function CreateDb($server_name,$username,$password,$databaseName)
 	{
-		$stmt=$this->db->prepare("CREATE DATABASE $databaseName");
-		if($stmt->execute())
+		$con = new mysqli($server_name,$username,$password);
+		if($con === false)
+		{
+			die("ERROR: Could not connect ".mysqli_connect_error());
+		}
+		$sql = "CREATE DATABASE $databaseName";
+		if($con->query($sql))
 		{
 			return true;
 		}
-		$stmt->close();
+		$con->close();
 	}
 	public function SelectAll($tblname)
 	{
@@ -101,6 +106,17 @@
                 return true;  
            }  
       } 
+         public function Import($server_name,$username,$password,$database_name,$sql_file)
+    {
+    	$sql = file_get_contents($sql_file);
+    	$connection = new mysqli($server_name,$username,$password,$database_name);
+    	$imported = $connection->multi_query($sql);
+    	if($imported)
+    	{
+    		return true;
+    	}
+
+    }
 
 
 }
