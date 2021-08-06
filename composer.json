@@ -4,6 +4,7 @@
     "description": "a library for processing queries easier",
     "keywords": ["queries","querify","query"],
     "homepage": "https://github.com/blackdante101/QuerifyPHP",
+    "license": "MIT"
     "authors": [
         {
             "name": "Abukari Einus",
