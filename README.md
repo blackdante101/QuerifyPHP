@@ -3,7 +3,7 @@
 </p>
 
 ### About QuerifyPHP
-it's a library that makes it easy to insert, select, delete and update record of a database in php
+a php library that makes querying faster & easier.
 
 # Getting Started
 
