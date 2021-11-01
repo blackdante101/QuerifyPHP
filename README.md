@@ -33,7 +33,7 @@ $querify->Import($servername,$username,$password,$database,$sqlfile);
 # Selecting Data
 ```php
 //assign a variable to store the array returned 
-$results = $querify->Select($tablename);
+$results = $querify->SelectAll($tablename);
 
 //loop and display the data from the array
 foreach($results as $results)
