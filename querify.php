@@ -1,5 +1,5 @@
-<?php 
- class Querify 
+<?php
+ class Querify
 {
 	public $db;
 	public function connect($servername,$username,$password,$databasename)
@@ -52,30 +52,23 @@
 	}
         public function Insert($tblname,$array)
         {
-            // at least this protection but a whitelist should be really used!
-            if (preg_match('![^A-Za-z0-9_]!', $tblname)) {
-                throw new InvalidArgumentException("Invalid table name: $tblname");
-            }
+            $tblname = $this-quoteIdentifier($tblname);
 
             $columns = '';
             foreach ($array as $key => $value) {
 
-                // at least this protection but a whitelist should be really used
-                if (preg_match('![^A-Za-z0-9_]!', $key)) {
-                    throw new InvalidArgumentException("Invalid column name: $key");
-                }
+                $key = $this->quoteIdentifier($key);
                 // whether to add a comma or not
                 if ($columns) {
                     $columns .= ',';
                 }
-                // identifiers MUST be wrapped in backticks
-                $columns .= "`$key`";
+                $columns .= $key;
             }
 
             // a string like ?,?,?...
             $placeholders = str_repeat('?,', count($array) - 1) . '?';
 
-            $query = "INSERT INTO `$tblname` ($columns) VALUES ($placeholders)";
+            $query = "INSERT INTO $tblname ($columns) VALUES ($placeholders)";
             $stmt = $this->db->prepare($query);
             // it's OK to use s for all variables
             $types = str_repeat("s", count($array));
@@ -83,37 +76,35 @@
             $stmt->execute();
         }
 
-	public function Update($table_name, $fields, $where_condition)  
-      {  
-           $query = '';  
-           $condition = '';  
-           
+	public function Update($table_name, $fields, $where_condition)
+      {
+           $query = '';
+           $condition = '';
+
            //loops array keys and values of fields array into query variable
-           foreach($fields as $key => $value)  
-           {  
-                $query .= $key . "='".$value."', ";  
-           } 
-
-           //removes last comma at the end of query string 
-           $query = substr($query, 0, -2); 
-
-           //loops array keys and values of where condition array into condition variable
-           foreach($where_condition as $key => $value)  
-           {  
-                $condition .= $key . "='".$value."' AND ";  
+           foreach($fields as $key => $value)
+           {
+                $query .= $this->quoteIdentifier($key) . "=?, ";
            }
 
-           $condition = substr($condition, 0, -5);  
+           //removes last comma at the end of query string
+           $query = substr($query, 0, -2);
 
-           //concatenating variables into query string
-           $query = "UPDATE ".$table_name." SET ".$query." WHERE ".$condition.""; 
+           //loops array keys and values of where condition array into condition variable
+           foreach($where_condition as $key => $value)
+           {
+                $condition .= $this->quoteIdentifier($key) . "=? AND ";
+           }
 
-           //returns true if query runs successfully 
-           if(mysqli_query($this->db, $query))  
-           {  
-                return true;  
-           }  
-      } 
+           $condition = substr($condition, 0, -5);
+
+           // prepare and execute statement with parameters
+           $query = "UPDATE $table_name SET $query WHERE $condition";
+					 $stmt = $this->db->prepare($query);
+					 $types = str_repeat("s", count($fields) + count($where_condition));
+					 $stmt->bind_param($types, ...array_merge(array_values($fields), array_values($where_condition)));
+					 return $stmt->execute();
+      }
          public function Import($server_name,$username,$password,$database_name,$sql_file)
     {
     	$sql = file_get_contents($sql_file);
@@ -126,6 +117,16 @@
 
     }
 
+		protected function quoteIdentifier(string $name) : string
+		{
+			// at least this protection but a whitelist should be really used
+			if (preg_match('![^A-Za-z0-9_]!', $name)) {
+					throw new InvalidArgumentException("Invalid column name: $name");
+			}
+
+			// quote as table/column identifier (backticks)
+			return "`$name`";
+		}
 
 }
 
