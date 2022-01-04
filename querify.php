@@ -50,31 +50,39 @@
 		return $stmt->get_result();
 		$stmt->close();
 	}
-	public function Insert($tblname,$array)
-	{
-		$string ='';
+        public function Insert($tblname,$array)
+        {
+            // at least this protection but a whitelist should be really used!
+            if (preg_match('![^A-Za-z0-9_]!', $tblname)) {
+                throw new InvalidArgumentException("Invalid table name: $tblname");
+            }
 
-		//loops each array value(input values) into string variable with apostrophe and commas
-		foreach ($array as $arr) {
-			$string .="'".$arr."',";
-		}
+            $columns = '';
+            foreach ($array as $key => $value) {
 
-		// removes last comma at the end of string
-		$trimstring= substr($string,0,-1);
+                // at least this protection but a whitelist should be really used
+                if (preg_match('![^A-Za-z0-9_]!', $key)) {
+                    throw new InvalidArgumentException("Invalid column name: $key");
+                }
+                // whether to add a comma or not
+                if ($columns) {
+                    $columns .= ',';
+                }
+                // identifiers MUST be wrapped in backticks
+                $columns .= "`$key`";
+            }
 
-		//stores array keys(column names) into columns variable with commas
-		$columns = implode(",",array_keys($array));
+            // a string like ?,?,?...
+            $placeholders = str_repeat('?,', count($array) - 1) . '?';
 
-		//concatenating variables into query string
-		$query = "INSERT INTO $tblname($columns) VALUES ($trimstring)";
+            $query = "INSERT INTO `$tblname` ($columns) VALUES ($placeholders)";
+            $stmt = $this->db->prepare($query);
+            // it's OK to use s for all variables
+            $types = str_repeat("s", count($array));
+            $stmt->bind_param($types, ...array_values($array));
+            $stmt->execute();
+        }
 
-		//returns true if query runs
-		if($this->db->query($query))
-		{
-			return true;
-		}
-
-	}
 	public function Update($table_name, $fields, $where_condition)  
       {  
            $query = '';  
