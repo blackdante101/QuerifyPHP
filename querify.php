@@ -59,7 +59,7 @@ class Querify
 
   public function Insert($tblname,$array)
   {
-    $tblname = $this-quoteIdentifier($tblname);
+    $tblname = $this->quoteIdentifier($tblname);
 
     $columns = '';
     foreach ($array as $key => $value) {
