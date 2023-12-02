@@ -1,7 +1,9 @@
 <p align="center">
   <img src="img/querify.PNG" alt="QuerifyPHP">
 </p>
+
 [![Open Source Helpers](https://www.codetriage.com/blackdante101/querifyphp/badges/users.svg)](https://www.codetriage.com/blackdante101/querifyphp)
+
 ### About QuerifyPHP
 a php library that makes querying faster & easier.
 
